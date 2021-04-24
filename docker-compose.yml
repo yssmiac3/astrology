@@ -1,0 +1,59 @@
+version: '3.7'
+services:
+
+  app:
+    container_name: ${PROJECT_ID}_app
+    build: 
+      context: ${DOCKER_CONFIG_PATH}/app
+      args:
+        - "PHP_FPM_VERSION:${PHP_FPM_VERSION}"
+        - "COMPOSER_VERSION:${COMPOSER_VERSION}"
+    environment:
+      PROJECT_ID : ${PROJECT_ID}
+      DOCKER_PHP_CONFIG : ${DOCKER_PHP_CONFIG}
+      DOCKER_XDEBUG : ${DOCKER_XDEBUG}
+      DOCKER_XDEBUG_PORT : ${DOCKER_XDEBUG_PORT}
+      DOCKER_CRON : ${DOCKER_CRON}
+    depends_on:
+     - mysql
+    volumes:
+      - "${HOST_DOCUMENT_ROOT}:${NGINX_DOCUMENT_ROOT}"
+    
+  nginx:
+    container_name: ${PROJECT_ID}_nginx
+    image: nginx:1.18.0-alpine
+    depends_on:
+      - app    
+    volumes:
+      - "${HOST_DOCUMENT_ROOT}:${NGINX_DOCUMENT_ROOT}"
+
+
+  mysql:
+    container_name: ${PROJECT_ID}_mysql
+    build: 
+      context: ${DOCKER_CONFIG_PATH}/mysql
+      args:
+        - "MYSQL_VERSION=${MYSQL_VERSION}"
+    environment:
+      - "MYSQL_ROOT_HOST=%"
+      - "MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}"
+      - "MYSQL_DATABASE=${DB_DATABASE}"
+      - "MYSQL_USER=${DB_USERNAME}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
+      - "SERVICE_NAME=mysql"
+    volumes:
+      - "${HOST_DATABASE_PATH}:/var/lib/mysql"    
+      - "${DOCKER_CONFIG_PATH}/mysql/initdb:/docker-entrypoint-initdb.d"
+       
+  supervisor:
+    container_name: ${PROJECT_ID}_supervisor
+    build: 
+      context: ${DOCKER_CONFIG_PATH}/supervisor 
+      args:
+        - PHP_VERSION=${PHP_FPM_VERSION}
+    depends_on:
+      - app 
+    volumes:
+      - "${HOST_DOCUMENT_ROOT}:${NGINX_DOCUMENT_ROOT}"
+      - "${DOCKER_CONFIG_PATH}/supervisor/supervisord.d:/etc/supervisord.d"   
+      - "${DOCKER_CONFIG_PATH}/supervisor/logs:/var/log/supervisor"

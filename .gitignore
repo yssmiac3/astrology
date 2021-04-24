@@ -1,0 +1,66 @@
+#####################################################
+# laravel
+
+### Laravel project
+# You will delete this line as soon your real Laravel project will be copied into directory `laravel`
+# laravel/*
+
+### JS packages
+laravel/node_modules
+
+### PHP packages
+laravel/vendor
+
+### Built folders and files
+laravel/public/storage
+laravel/public/assets
+#laravel/public/frontend
+laravel/public/backend
+laravel/public/css
+laravel/public/js
+laravel/public/build
+#laravel/public/img
+laravel/public/images
+
+laravel/public/mix-manifest.json
+
+### Project settings
+laravel/.env
+
+### Storage
+laravel/storage/*.key
+laravel/storage/*
+laravel/resources/assets/css/backend/laravel.css
+laravel/resources/assets/js/dist/
+laravel/public/media/*
+
+#########################################################
+# Docker
+
+### env file (only template is shared)
+.env
+
+### Database
+docker/mysql/databases/*
+
+### Certbot
+docker/certbot/conf
+docker/certbot/www
+
+### Logs
+docker/supervisor/logs/*
+
+#########################################################
+### IDE settings
+### You may want to uncomment next line
+#.vscode
+
+### MySQL dump files
+*.sql
+!docker/mysql/initdb/*.sql
+
+.idea
+.idea/*
+.vscode
+.vscode/*
+.DS_Store
