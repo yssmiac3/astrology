@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Events\OrderCreated;
+use App\Http\Requests\StoreOrderRequest;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function buy()
+    public function store(StoreOrderRequest $request)
     {
+        $order = Order::create($request->all());
 
+        if ($order) {
+            event(new OrderCreated($order));
+            return response()->json('', 200);
+        }
     }
 }

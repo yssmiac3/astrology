@@ -29,4 +29,9 @@ class Service extends Model
         return $this->belongsToMany(Astrologist::class, 'astrologist_service', 'service_id', 'astrologist_id')
             ->withPivot('price');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'service_id', 'id');
+    }
 }

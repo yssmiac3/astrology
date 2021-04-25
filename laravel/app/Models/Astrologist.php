@@ -14,9 +14,10 @@ class Astrologist extends Model
 
 
     protected $fillable = [
-      'name',
-      'biography',
-      'email'
+        'id',
+        'name',
+        'biography',
+        'email'
     ];
 
     protected static function newFactory()
@@ -28,5 +29,20 @@ class Astrologist extends Model
     {
         return $this->belongsToMany(Service::class, 'astrologist_service', 'astrologist_id', 'service_id')
             ->withPivot('price');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'astrologist_id', 'id');
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        return asset($this->photo);
+    }
+
+    public function setPhotoUrlAttribute($id)
+    {
+        $this->photo = 'storage/images/astrologist_' . $id . '.jpeg';
     }
 }

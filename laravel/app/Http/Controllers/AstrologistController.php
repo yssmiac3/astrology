@@ -11,7 +11,7 @@ class AstrologistController extends Controller
     {
         $data = Astrologist::all()->map( function ($item) {
             return [
-//                'photo' => $item->photo,
+                'photo' => $item->photo_url,
                 'name' => $item->name,
                 'services' => $item->services->pluck('name'),
                 'detailsUrl' => route('api.astrologists.show', $item->id)
@@ -32,7 +32,7 @@ class AstrologistController extends Controller
             ];
         });
         $data = [
-//                'photo' => $item->photo,
+            'photo' => $astrologist->photo_url,
             'name' => $astrologist->name,
             'biography' => $astrologist->biography,
             'services' => $services,
