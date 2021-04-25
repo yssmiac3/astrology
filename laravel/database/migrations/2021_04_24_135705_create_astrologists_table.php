@@ -18,7 +18,8 @@ class CreateAstrologistsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->text('biography');
-            $table->string('email', 30);
+            $table->string('email');
+            $table->string('photo')->nullable();
         });
     }
 

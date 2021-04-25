@@ -14,6 +14,11 @@ class AstrologistSeeder extends Seeder
      */
     public function run()
     {
-        Astrologist::factory()->count(5)->create();
+        $all = Astrologist::factory()->count(5)->create();
+
+        $all->each( function ($item) {
+           $item->photo_url = $item->id;
+           $item->save();
+        });
     }
 }

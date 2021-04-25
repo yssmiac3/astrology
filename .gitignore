@@ -29,7 +29,8 @@ laravel/.env
 
 ### Storage
 laravel/storage/*.key
-laravel/storage/*
+laravel/storage/logs
+laravel/storage/framework
 laravel/resources/assets/css/backend/laravel.css
 laravel/resources/assets/js/dist/
 laravel/public/media/*

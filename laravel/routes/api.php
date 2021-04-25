@@ -17,3 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group([
+    'middleware' => 'api',
+    'as' => 'api.'
+    ], function () {
+
+    Route::group([
+        'prefix' => 'astrologists',
+        'as' => 'astrologists.'
+    ], function() {
+        Route::get('/', [\App\Http\Controllers\AstrologistController::class, 'all'])->name('all');
+        Route::get('/{astrologist}', [\App\Http\Controllers\AstrologistController::class, 'show'])->name('show');
+    });
+
+    Route::post('/orders', [\App\Http\Controllers\OrderController::class, 'store'])->name('orders.create');
+});
