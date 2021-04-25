@@ -34,6 +34,7 @@ laravel/storage/framework
 laravel/resources/assets/css/backend/laravel.css
 laravel/resources/assets/js/dist/
 laravel/public/media/*
+laravel/storage/app/public/credentials
 
 #########################################################
 # Docker
