@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Services\GoogleSheet;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,12 +15,13 @@ class AddOrderToGoogleSheets implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private Order $order;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(private Order $order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
     }
@@ -31,7 +33,8 @@ class AddOrderToGoogleSheets implements ShouldQueue
      */
     public function handle()
     {
-        // google sheets logic
-        \Log::info($this->order->price);
+        $googleSheet = new GoogleSheet();
+        $response = $googleSheet->saveDataToSheet($this->order->toArray());
+        \Log::info('Order id: '. $this->order->id . '; ' . $response->getUpdates()->getUpdatedRange());
     }
 }
