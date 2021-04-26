@@ -1,3 +1,5 @@
+Актуальая ветка develop.
+
 Заполнить laravel/.env по примеру (обязательно два последних поля для google sheets).
 Заполнить ./.env по примеру.
 Поместите файл credentials.json в laravel/storage/app/credentials/ (для работы с google sheets).
