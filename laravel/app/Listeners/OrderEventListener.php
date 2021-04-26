@@ -13,7 +13,9 @@ class OrderEventListener
      */
     public function onOrderCreated($event)
     {
-        AddOrderToGoogleSheets::dispatch($event->order);
+        AddOrderToGoogleSheets::dispatch($event->order)
+            ->onConnection('database')
+            ->onQueue('default');
     }
 
     /**

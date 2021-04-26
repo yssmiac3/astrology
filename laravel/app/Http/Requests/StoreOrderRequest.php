@@ -27,7 +27,6 @@ class StoreOrderRequest extends FormRequest
             'email' => 'required|string',
             'astrologist_id' => 'required|integer',
             'service_id' => 'required|integer',
-            'price' => 'required|numeric',
         ];
     }
 }
