@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use DateTimeInterface;
 
 class Order extends Model
 {
@@ -15,16 +17,20 @@ class Order extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->created_at = $model->freshTimestamp();
+            $model->created_at = Carbon::now();
         });
     }
+
+    protected $casts = [
+      'created_at' => 'date:Y-m-d h:i:s'
+    ];
 
     protected $fillable = [
         'id',
         'astrologist_id',
         'service_id',
         'price',
-        'email'
+        'email',
     ];
 
     public function astrologist()

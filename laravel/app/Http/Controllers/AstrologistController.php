@@ -11,6 +11,7 @@ class AstrologistController extends Controller
     {
         $data = Astrologist::all()->map( function ($item) {
             return [
+                'id' => $item->id,
                 'photo' => $item->photo_url,
                 'name' => $item->name,
                 'services' => $item->services->pluck('name'),
@@ -23,15 +24,27 @@ class AstrologistController extends Controller
 
     public function show(Astrologist $astrologist)
     {
-        $services = $astrologist->services->map( function ($service) {
+        $services = $astrologist->services->map( function ($service) use($astrologist) {
             return [
+                'id' => $service->id,
                 'name' => $service->name,
                 'price' => $service->pivot->price,
-                // route for buying
-                'buyUrl' => 'kupit uslugu'
+
+                // payment url and data
+                'paymentInfo' => [
+                    'url' => 'Payment url based on astrologist, service etc.',
+                    'data' => [
+                        'email' => 'User email',
+                        'astrologist_id' => $astrologist->id,
+                        'service_id' => $service->id,
+                        'etc' => 'The data we expect on order creating'
+                    ]
+                ]
             ];
         });
+
         $data = [
+            'id' => $astrologist->id,
             'photo' => $astrologist->photo_url,
             'name' => $astrologist->name,
             'biography' => $astrologist->biography,

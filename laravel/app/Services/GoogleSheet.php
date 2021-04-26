@@ -27,19 +27,25 @@ class GoogleSheet
 
     public function saveDataToSheet(array $data)
     {
-        $data = [ array_values($data) ];
-        $body = new Google_Service_Sheets_ValueRange([
-            'values' => array_values($data)
-        ]);
-
         $params = [
             'valueInputOption' => 'RAW',
             'insertDataOption' => 'INSERT_ROWS'
-
         ];
 
-        return $this->googleSheetService
-            ->spreadsheets_values
-            ->append($this->spreadSheetId, $this->sheetId, $body, $params);
+        try {
+            $body = new Google_Service_Sheets_ValueRange([
+                'values' => [ array_values($data) ]
+            ]);
+
+            $response = $this->googleSheetService
+                ->spreadsheets_values
+                ->append($this->spreadSheetId, $this->sheetId, $body, $params);
+
+            return 'Order id: ' . $data['id'] . '; ' . $response->getUpdates()->getUpdatedRange();
+
+        } catch (\Exception $e) {
+            return 'Writing to google sheet failed';
+        }
+
     }
 }

@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Order;
 
-class AddOrderToGoogleSheets implements ShouldQueue
+class AddOrderToGoogleSheets
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -33,8 +33,7 @@ class AddOrderToGoogleSheets implements ShouldQueue
      */
     public function handle()
     {
-        $googleSheet = new GoogleSheet();
-        $response = $googleSheet->saveDataToSheet($this->order->toArray());
-        \Log::info('Order id: '. $this->order->id . '; ' . $response->getUpdates()->getUpdatedRange());
+        $response = (new GoogleSheet())->saveDataToSheet($this->order->toArray());
+        \Log::info($response);
     }
 }
