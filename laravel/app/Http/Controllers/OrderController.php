@@ -11,12 +11,13 @@ class OrderController extends Controller
 {
     public function store(StoreOrderRequest $request)
     {
+        // get price from pivot table
         $price = Astrologist::findOrFail($request->astrologist_id)
             ->services()
             ->where('service_id', $request->service_id)
             ->select('price')
             ->first()
-            ->price;
+            ->pivot->price;
 
         $order = Order::create([
             'astrologist_id' => $request->astrologist_id,
@@ -27,8 +28,9 @@ class OrderController extends Controller
 
         if ($order) {
             event(new OrderCreated($order));
-            return response()->json('', 200);
+            return response()->json(route('api.astrologists.all'), 200);
         }
+        // else ...
     }
 
     // expecting method to define a Payment Service (generate url or smth)
