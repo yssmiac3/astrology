@@ -1,5 +1,8 @@
 PHP 8.0.3
 
+Readme проекта в laravel/README.md
+Даный ридми про развертывание докера
+
 Актуальная ветка develop.
 
 Заполнить laravel/.env по примеру laravel/.env.exapmle (обязательно два последних поля для google sheets).
